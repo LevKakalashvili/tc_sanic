@@ -38,4 +38,6 @@ class Transaction(Base):
     __tablename__ = "transaction"
 
     id = Column(Integer, primary_key=True)
-    date = Column(DateTime, )
+    date = Column(DateTime, nullable=False)
+    amount = Column(Numeric(5, 2), nullable=False)
+    account = Column(ForeignKey("account.id"), nullable=False)
