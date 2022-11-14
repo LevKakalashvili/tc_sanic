@@ -41,3 +41,4 @@ class Transaction(Base):
     date = Column(DateTime, nullable=False)
     amount = Column(Numeric(5, 2), nullable=False)
     account = Column(ForeignKey("account.id"), nullable=False)
+
