@@ -23,8 +23,7 @@ def setup_database():
     @app.listener("after_server_start")
     async def connect_to_db(*args, **kwargs):
         app.ctx.db = create_engine(
-            app_config.DB_URL,
-            echo=True if app_config.DEBUG == "True" else False
+            app_config.DB_URL, echo=True if app_config.DEBUG == "True" else False
         )
         await app.ctx.db.connect()
 

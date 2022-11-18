@@ -6,7 +6,11 @@ load_dotenv()
 
 class Config:
     DEBUG: bool = True
-    HOST: str = "0.0.0.0"
+    HOST: str = os.getenv("DB_HOST")
     PORT: int = 5000
     AUTO_RELOAD: bool = True
-    DB_URL: str = f"postgresql+psycopg2://{os.getenv('DB_NAME')}:{os.getenv('DB_USER_PSWD')}@{HOST}/{os.getenv('DB_NAME')}"
+    DB_URL: str = f"postgresql+psycopg2://" \
+                  f"{os.getenv('DB_NAME')}:" \
+                  f"{os.getenv('DB_USER_PSWD')}@" \
+                  f"{os.getenv('DB_HOST')}/" \
+                  f"{os.getenv('DB_NAME')}"
