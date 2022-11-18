@@ -6,7 +6,7 @@ from app.user.auth import user
 
 app = Sanic("test_sanic_app")
 
-app.blueprint(user, url_prefix="/user")
+# app.blueprint(user, url_prefix="/user")
 
 # def hello_world_1(request):
 #     return text("Hello, world 11111.")
