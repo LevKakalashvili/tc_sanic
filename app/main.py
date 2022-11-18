@@ -1,23 +1,23 @@
 from sanic import Sanic, text
 from app.settings import Config as app_config
 from sqlalchemy import create_engine
-
-from app.user.auth import user
+from app.handlers import UserRegistration, GoodsList
 
 app = Sanic("test_sanic_app")
-
+app.ctx.db = create_engine("postgresql+psycopg2://", echo=True, future=True)
 # app.blueprint(user, url_prefix="/user")
 
 # def hello_world_1(request):
 #     return text("Hello, world 11111.")
-#
-#
+
+
 # @app.get("/")
 # async def hello_world(request):
 #     return text("Hello, world.")
 #
-# app.add_route(uri="/new", handler=hello_world_1, methods=["GET"])
-
+app.add_route(UserRegistration.as_view(), "/user/registration")
+# app.add_route(UserRegistration.as_view(), UserRegistration.endpoint)
+app.add_route(GoodsList.as_view(), "/good/all")
 
 def setup_database():
     @app.listener("after_server_start")
