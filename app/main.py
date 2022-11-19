@@ -1,10 +1,10 @@
 from sanic import Sanic, text
 from app.settings import Config as app_config
-from sqlalchemy import create_engine
+from app.db import db_engine
 from app.handlers import UserRegistration, GoodsList
 
 app = Sanic("test_sanic_app")
-app.ctx.db = create_engine("postgresql+psycopg2://", echo=True, future=True)
+app.ctx.db_engine = db_engine
 # app.blueprint(user, url_prefix="/user")
 
 # def hello_world_1(request):
@@ -15,17 +15,17 @@ app.ctx.db = create_engine("postgresql+psycopg2://", echo=True, future=True)
 # async def hello_world(request):
 #     return text("Hello, world.")
 #
-app.add_route(UserRegistration.as_view(), "/user/registration")
-# app.add_route(UserRegistration.as_view(), UserRegistration.endpoint)
+# app.add_route(UserRegistration.as_view(), "/user/registration")
+app.add_route(UserRegistration.as_view(), UserRegistration().uri)
 app.add_route(GoodsList.as_view(), "/good/all")
 
 def setup_database():
     @app.listener("after_server_start")
     async def connect_to_db(*args, **kwargs):
-        app.ctx.db = create_engine(
+        app.ctx.db_engine = create_engine(
             app_config.DB_URL, echo=True if app_config.DEBUG == "True" else False
         )
-        await app.ctx.db.connect()
+        await app.ctx.db_engine.connect()
 
     # @app.listener('after_server_stop')
     # async def disconnect_from_db(*args, **kwargs):
