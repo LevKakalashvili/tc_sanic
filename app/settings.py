@@ -10,7 +10,7 @@ class Config:
     PORT: int = 5000
     AUTO_RELOAD: bool = True
     DB_URL: str = f"postgresql+psycopg2://" \
-                  f"{os.getenv('DB_NAME')}:" \
+                  f"{os.getenv('DB_USER')}:" \
                   f"{os.getenv('DB_USER_PSWD')}@" \
                   f"{os.getenv('DB_HOST')}/" \
                   f"{os.getenv('DB_NAME')}"

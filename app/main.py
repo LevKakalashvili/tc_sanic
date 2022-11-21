@@ -19,13 +19,12 @@ app.ctx.db_engine = db_engine
 app.add_route(UserRegistration.as_view(), UserRegistration().uri)
 app.add_route(GoodsList.as_view(), "/good/all")
 
-def setup_database():
-    @app.listener("after_server_start")
-    async def connect_to_db(*args, **kwargs):
-        app.ctx.db_engine = create_engine(
-            app_config.DB_URL, echo=True if app_config.DEBUG == "True" else False
-        )
-        await app.ctx.db_engine.connect()
+# def setup_database():
+#     @app.listener("after_server_start")
+#     async def connect_to_db(*args, **kwargs):
+#         app.ctx.db_engine =
+#         )
+#         await app.ctx.db_engine.connect()
 
     # @app.listener('after_server_stop')
     # async def disconnect_from_db(*args, **kwargs):

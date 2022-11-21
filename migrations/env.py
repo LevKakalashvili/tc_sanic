@@ -1,5 +1,5 @@
-
 import os
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -9,7 +9,7 @@ from alembic import context
 
 import app.settings
 
-# this is the Alembic Config object, which provides
+# this is the Alembic Config object, which providesal
 # access to the values within the .ini file in use.
 config = context.config
 
