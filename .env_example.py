@@ -1,3 +1,4 @@
 DB_NAME=""
 DB_USER=""
 DB_USER_PSWD=""
+DB_HOST=""
