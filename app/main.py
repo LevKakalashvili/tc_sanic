@@ -1,4 +1,4 @@
-from sanic import Sanic, text
+from sanic import Sanic
 from app.settings import Config as app_config
 from app.db import db_engine
 from app.handlers import UserRegistration, GoodsList

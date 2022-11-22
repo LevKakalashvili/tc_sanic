@@ -2,6 +2,7 @@ import json
 
 from sanic import text
 from sanic.views import HTTPMethodView
+from sanic import json
 
 
 from app.models import Good
@@ -31,13 +32,14 @@ class GoodsList(HTTPMethodView):
     async def get(self, request):
         json_data = []
         goods = select(Good)
-        for good in db_session.scalar(goods):
+        for good in db_session.scalars(goods):
             json_data.append(
                 {
                     "id": good.id,
                     "name": good.name,
-                    "price": good.price
+                    "price": str(good.price)
                 }
             )
-        return json.dumps({"Товары": json_data})
+        # return json.dumps({"Товары": json_data})
+        return text({"Товары": "Что-то1"})
 
