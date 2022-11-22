@@ -9,16 +9,7 @@ from app.models import Good
 from sqlalchemy import select
 from app.db import session as db_session
 
-
-class User(HTTPMethodView):
-    USER_URI = "/user"
-
-
-class UserRegistration(User):
-
-    def __init__(self):
-        super(User, self).__init__()
-        self.uri = f"{self.USER_URI}/registration"
+class UserRegistration(HTTPMethodView):
 
     async def get(self, request):
         return text(f"You're here:  {request.method} - {request.server_path}")
@@ -35,11 +26,9 @@ class GoodsList(HTTPMethodView):
         for good in db_session.scalars(goods):
             json_data.append(
                 {
-                    "id": good.id,
                     "name": good.name,
                     "price": str(good.price)
                 }
             )
-        # return json.dumps({"Товары": json_data})
-        return text({"Товары": "Что-то1"})
+        return json({"goods": json_data})
 
