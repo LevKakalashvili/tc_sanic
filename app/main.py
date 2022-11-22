@@ -2,6 +2,8 @@ from sanic import Sanic
 from app.settings import Config as app_config
 from app.db import db_engine
 from app.handlers import UserRegistration, GoodsList
+from app.urls import Urls as app_url
+
 
 app = Sanic("test_sanic_app")
 app.ctx.db_engine = db_engine
@@ -16,8 +18,8 @@ app.ctx.db_engine = db_engine
 #     return text("Hello, world.")
 #
 # app.add_route(UserRegistration.as_view(), "/user/registration")
-app.add_route(UserRegistration.as_view(), UserRegistration().uri)
-app.add_route(GoodsList.as_view(), "/good/all")
+app.add_route(UserRegistration.as_view(), app_url.USER_REGISTRATION)
+app.add_route(GoodsList.as_view(), app_url.GOODS)
 
 # def setup_database():
 #     @app.listener("after_server_start")
