@@ -1,22 +1,23 @@
 import json
-
-from sanic import text
 from sanic.views import HTTPMethodView
-from sanic import json
+from sanic import json, exceptions, redirect
 
 
-from app.models import Good
+from app.models import Good, User
 from sqlalchemy import select
 from app.db import session as db_session
 
 class UserRegistration(HTTPMethodView):
 
-    async def get(self, request):
-        return text(f"You're here:  {request.method} - {request.server_path}")
-
     async def post(self, request):
-        return text(f"You're here:  {request.method} - {request.server_path}")
+        if getattr(request, "credentials") is not None \
+                and (request.credentials.username != "" and request.credentials.password != ""):
+            redirect_url = User.create(username=request.credentials.username,
+                        password=request.credentials.password)
+        else:
+            raise exceptions.NotFound("No user data: user name and/or password.")
 
+        return redirect(redirect_url)
 
 class GoodsList(HTTPMethodView):
 
