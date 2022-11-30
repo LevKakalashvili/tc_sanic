@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, Numeric, String, Boolean, ForeignKey, DateTime
-from sqlalchemy.orm import declarative_base
 from passlib.hash import pbkdf2_sha256
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 from app.db import session
@@ -15,6 +15,7 @@ class Good(Base):
 
     def __repr__(self):
         return f"User(id={self.id}, name={self.name}, price={self.price})"
+
 
 class User(Base):
     __tablename__ = "user"
@@ -33,11 +34,12 @@ class User(Base):
         """Создания пользователя."""
         if session.query(User.username).filter_by(username=username).first() is None:
             new_user = User(
-                    username=username,
-                    password=pbkdf2_sha256.hash(password)
-                )
+                username=username,
+                password=pbkdf2_sha256.hash(password)
+            )
             session.add(new_user)
-            url = "/activation_url"
+            # генерим урл
+            url = f"/{создание кода}"
         else:
             url = "/user_exists"
         session.commit()
