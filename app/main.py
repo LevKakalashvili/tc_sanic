@@ -1,7 +1,7 @@
 from sanic import Sanic
 from app.settings import Config as app_config
 from app.db import db_engine
-from app.handlers import UserRegistration, GoodsList
+from app.handlers import UserRegistration, GoodsList, UserActivation
 from app.urls import Urls as app_url
 
 
@@ -17,8 +17,8 @@ app.ctx.db_engine = db_engine
 # async def hello_world(request):
 #     return text("Hello, world.")
 #
-# app.add_route(UserRegistration.as_view(), "/user/registration")
 app.add_route(UserRegistration.as_view(), app_url.USER_REGISTRATION)
+app.add_route(UserActivation.as_view(), f"{app_url.USER_ACTIVATION}/<activation_link:uuid>")
 app.add_route(GoodsList.as_view(), app_url.GOODS)
 
 # def setup_database():
@@ -49,3 +49,4 @@ def init():
 
 if __name__ == "__main__":
     init()
+    from app.models import InactiveUser
