@@ -1,5 +1,4 @@
 import uuid
-from typing import Any
 
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, delete
@@ -50,6 +49,17 @@ class User(Base):
         """Получение пользователя."""
         user = session.query(User.username).filter_by(username=username).first()
         return user
+
+    @classmethod
+    def update_admins(cls, admins: list):
+        for user in session.query(cls).all():
+            if user.username in admins:
+                user.is_admin = True
+            else:
+                user.is_admin = False
+
+        session.commit()
+        return True
 
 
 class InactiveUser(Base):
