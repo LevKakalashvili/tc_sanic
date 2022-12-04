@@ -5,3 +5,4 @@ python-dotenv==0.21.0
 passlib==1.7.4
 psycopg-binary
 psycopg2
+apscheduler
