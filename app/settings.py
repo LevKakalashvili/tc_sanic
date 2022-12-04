@@ -14,3 +14,8 @@ class Config:
                   f"{os.getenv('DB_USER_PSWD')}@" \
                   f"{os.getenv('DB_HOST')}/" \
                   f"{os.getenv('DB_NAME')}"
+    INACTIVE_USER_CLEAR_CRON: str = "59 23 * * *"  # каждый день в 23.59
+    ADMINS_LIST: list = [
+        "user_1",
+        "user_2",
+    ]
