@@ -1,47 +1,38 @@
+from apscheduler.triggers.cron import CronTrigger
 from sanic import Sanic
-from app.settings import Config as app_config
+
+from app.models import User
+from app.schedule_task import clear_inactive_user_table
+from app.settings import Config as AppConfig
 from app.db import db_engine
 from app.handlers import UserRegistration, GoodsList, UserActivation
-from app.urls import Urls as app_url
-
+from app.urls import Urls as AppUrls
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 app = Sanic("test_sanic_app")
 app.ctx.db_engine = db_engine
-# app.blueprint(user, url_prefix="/user")
 
-# def hello_world_1(request):
-#     return text("Hello, world 11111.")
+app.add_route(UserRegistration.as_view(), AppUrls.USER_REGISTRATION)
+app.add_route(UserActivation.as_view(), f"{AppUrls.USER_ACTIVATION}/<activation_link:uuid>")
+app.add_route(GoodsList.as_view(), AppUrls.GOODS)
 
 
-# @app.get("/")
-# async def hello_world(request):
-#     return text("Hello, world.")
-#
-app.add_route(UserRegistration.as_view(), app_url.USER_REGISTRATION)
-app.add_route(UserActivation.as_view(), f"{app_url.USER_ACTIVATION}/<activation_link:uuid>")
-app.add_route(GoodsList.as_view(), app_url.GOODS)
-
-# def setup_database():
-#     @app.listener("after_server_start")
-#     async def connect_to_db(*args, **kwargs):
-#         app.ctx.db_engine =
-#         )
-#         await app.ctx.db_engine.connect()
-
-    # @app.listener('after_server_stop')
-    # async def disconnect_from_db(*args, **kwargs):
-    #     print(app.router.routes_all)
-    #     # await app.db.disconnect()
+@app.after_server_start
+async def setup_schedule(app, loop):
+    app.ctx.scheduler = AsyncIOScheduler()
+    app.ctx.scheduler.add_job(clear_inactive_user_table, CronTrigger.from_crontab(AppConfig.INACTIVE_USER_CLEAR_CRON))
+    app.ctx.scheduler.start()
 
 
 def init():
-    # setup_database()
-    if app_config.DEBUG:
+    User.update_admins(admins=AppConfig.ADMINS_LIST)
+
+    if AppConfig.DEBUG:
         app.run(
-            debug=app_config.DEBUG,
-            host=app_config.HOST,
-            port=app_config.PORT,
-            auto_reload=app_config.AUTO_RELOAD,
+            debug=AppConfig.DEBUG,
+            host=AppConfig.HOST,
+            port=AppConfig.PORT,
+            auto_reload=AppConfig.AUTO_RELOAD,
         )
     else:
         app.run()
@@ -49,4 +40,3 @@ def init():
 
 if __name__ == "__main__":
     init()
-    from app.models import InactiveUser
