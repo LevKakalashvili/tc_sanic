@@ -45,9 +45,9 @@ class User(Base):
         return new_user
 
     @staticmethod
-    def get(username: str) -> object | None:
+    def get(username: str):
         """Получение пользователя."""
-        user = session.query(User.username).filter_by(username=username).first()
+        user = session.query(User).filter_by(username=username).first()
         return user
 
     @classmethod
@@ -60,6 +60,9 @@ class User(Base):
 
         session.commit()
         return True
+
+    def to_dict(self):
+        return {"user_id": self.id, "username": self.username}
 
 
 class InactiveUser(Base):
