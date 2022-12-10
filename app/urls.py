@@ -8,3 +8,4 @@ class Urls:
     USER_REGISTRATION = "/user/registration"
     USER_ACTIVATION = "/user/activation"
     GOODS = "/good/all"
+    ADD_TRANSACTION = "/payment/webhook"
