@@ -1,8 +1,10 @@
 alembic==1.8.1
-sanic
-SQLAlchemy==1.4.43
+sanic==22.9.1
+SQLAlchemy==1.4.44
 python-dotenv==0.21.0
 passlib==1.7.4
-psycopg-binary
-psycopg2
-apscheduler
+psycopg2-binary==2.9.5
+psycopg2==2.9.5
+apscheduler==3.9.1.post1
+pydantic==1.10.2
+sanic-jwt==1.8.0
