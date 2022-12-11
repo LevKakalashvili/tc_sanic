@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from sanic import request as request_type
+import sanic
 from pydantic import BaseModel, ValidationError
 
 
@@ -17,12 +17,12 @@ class UserData(BaseModel):
     password: str
 
 
-def check_userdata(request: request_type) -> UserData | None:
+def check_userdata(request: sanic.Request) -> UserData | None:
     try:
         return UserData(**request.json)
     except ValidationError:
         return None
 
 
-def check_transaction_data(request: request_type) -> TransactionData | None:
+def check_transaction_data(request: sanic.Request) -> TransactionData | None:
     return TransactionData(**request.json)
