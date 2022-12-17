@@ -1,0 +1,5 @@
+DB_NAME="db_name"
+DB_USER="username"
+DB_USER_PSWD="password"
+DB_HOST="db_host"
+JWT_SECRET="super_secret_string"
